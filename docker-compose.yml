@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+
+  laravel:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: laravel-app
+    restart: unless-stopped
+    ports:
+      - 9000:8181
+    depends_on:
+      - redis
+
+  vuejs:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: vuejs-app
+    ports:
+      - 8080:80
+    depends_on:
+      - laravel
