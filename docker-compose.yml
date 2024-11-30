@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  nginx_laravel:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "7070:7070"   # Escutando a porta 7070 também para o frontend
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - laravel
+      - vuejs
+      - vuejs1
+      - vuejs2
+
   redis:
     image: redis
     restart: unless-stopped
@@ -11,10 +24,33 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
-    container_name: laravel-app
     restart: unless-stopped
     ports:
-      - 9000:8181
+      - 8181:8181
+    depends_on:
+      - redis
+    volumes:
+      - ./api:/app
+
+  laravel2:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8182:8181
+    depends_on:
+      - redis
+    volumes:
+      - ./api:/app
+
+  laravel3:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - 8183:8181
     depends_on:
       - redis
     volumes:
@@ -24,8 +60,25 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile
-    container_name: vuejs-app
     ports:
-      - 8080:80
+      - 4040:80
+    depends_on:
+      - laravel
+
+  vuejs1:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - 4041:80
+    depends_on:
+      - laravel
+
+  vuejs2:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - 4042:80
     depends_on:
       - laravel
