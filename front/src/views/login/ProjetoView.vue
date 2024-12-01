@@ -11,7 +11,16 @@
     <div class="area-cards">
       <div v-for="(list, index) in lists" :key="list.id" class="list">
         <div class="list-header">
-          <h3>{{ list.title }}</h3>
+          <template v-if="canUpdateListName && listToUpdateId == list.id">
+            <input
+              v-model="list.title"
+              class="input-change-title"
+              ref="inputField"
+              @keypress.enter="confirmListNameUpdate(list.id)"
+            />
+            
+          </template>
+          <h3 v-else>{{ list.title }}</h3>
           <div>
             <button
               v-if="index > 0"
@@ -26,6 +35,12 @@
               class="btn btn-sm btn-outline-primary"
             >
               <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button
+              class="btn btn-sm btn-outline-secondary ml-2"
+              @click="updateListName(list.id)"
+            >
+              <i class="fa-solid fa-gear"></i>
             </button>
           </div>
         </div>
@@ -70,7 +85,9 @@
 </template>
 <script setup>
 import LoginLayout from "./layouts/LoginLayout.vue";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
+const listToUpdateId = ref(null);
+const canUpdateListName = ref(false);
 
 const lists = reactive([
   {
@@ -173,6 +190,16 @@ const onDrop = (event, targetIndex, toListId) => {
       )
     );
 };
+
+const updateListName = (listId) => {
+  listToUpdateId.value = listId;
+  canUpdateListName.value = true;
+
+};
+const confirmListNameUpdate = (listId) => {
+  listToUpdateId.value = null;
+  canUpdateListName.value = false;
+};
 </script>
 
 <style scoped>
@@ -255,4 +282,11 @@ header h1 {
   font-size: 1.5rem;
   margin-bottom: 0;
 }
+.input-change-title {
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  outline: none;
+}
 </style>
+
