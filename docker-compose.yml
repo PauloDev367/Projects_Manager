@@ -64,6 +64,8 @@ services:
       - 4040:80
     depends_on:
       - laravel
+    volumes:
+      - ./front:/app
 
   vuejs1:
     build:
@@ -73,6 +75,8 @@ services:
       - 4041:80
     depends_on:
       - laravel
+    volumes:
+      - ./front:/app
 
   vuejs2:
     build:
@@ -82,3 +86,20 @@ services:
       - 4042:80
     depends_on:
       - laravel
+    volumes:
+      - ./front:/app
+    
+  vuejs-dev:
+    build:
+      context: .
+      dockerfile: dev/front/Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./front:/app
+    command: npm run dev
+    depends_on:
+      - laravel
+
