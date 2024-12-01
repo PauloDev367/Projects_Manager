@@ -22,7 +22,14 @@
         <li>
           <hr />
         </li>
-        <li class="li-item li-title">Meus projetoss</li>
+        <li class="li-item li-title">
+          <div class="projetos">
+            <span>Meus projetos</span>
+            <button>
+              <i class="fa-solid fa-circle-plus"></i>
+            </button>
+          </div>
+        </li>
 
         <li class="li-item li-proj">
           <a href="#"># Projeto 1 </a>
@@ -35,7 +42,9 @@
           <i class="fa-solid fa-table-columns"></i>
         </button>
       </div>
-      <slot></slot>
+      <div class="area-conteudo">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -60,14 +69,14 @@ const changeMenuStatus = () => {
 .conteudo .lateral {
   height: 100%;
   background-color: #fcfaf8;
-  width: 25%;
+  width: 20%;
   padding: 20px;
   transition: all 0.3s;
 }
 
 .conteudo .principal {
   height: 100%;
-  width: 75%;
+  width: 80%;
   background-color: #ffffff;
   transition: all 0.3s;
 }
@@ -110,6 +119,17 @@ const changeMenuStatus = () => {
 }
 .conteudo .lateral .li-proj {
   font-weight: 400;
+}
+.conteudo .lateral .li-item .projetos {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.conteudo .lateral .li-item .projetos button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.3rem;
 }
 .conteudo .lateral .head {
   display: flex;
@@ -161,5 +181,14 @@ const changeMenuStatus = () => {
 }
 .conteudo .principal .head button:hover {
   background-color: #ccc;
+}
+.conteudo .principal .head {
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.conteudo .principal .area-conteudo {
+  padding: 20px;
+  max-height: 100%;
+  overflow-y: scroll;
 }
 </style>
