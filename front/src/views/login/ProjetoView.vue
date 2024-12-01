@@ -9,9 +9,25 @@
     </header>
 
     <div class="area-cards">
-      <div v-for="list in lists" :key="list.id" class="list">
+      <div v-for="(list, index) in lists" :key="list.id" class="list">
         <div class="list-header">
           <h3>{{ list.title }}</h3>
+          <div>
+            <button
+              v-if="index > 0"
+              @click="moveList(index, -1)"
+              class="btn btn-sm btn-outline-primary"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <button
+              v-if="index < lists.length - 1"
+              @click="moveList(index, 1)"
+              class="btn btn-sm btn-outline-primary"
+            >
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
         <div
           class="cards"
@@ -19,13 +35,13 @@
           @drop="onDrop($event, null, list.id)"
         >
           <div
-            v-for="(card, index) in list.cards"
+            v-for="(card, cardIndex) in list.cards"
             :key="card.id"
             class="card"
             draggable="true"
             @dragstart="onDragStart($event, card, list.id)"
-            @dragover.prevent="onDragOver($event, index, list.id)"
-            @drop="onDrop($event, index, list.id)"
+            @dragover.prevent="onDragOver($event, cardIndex, list.id)"
+            @drop="onDrop($event, cardIndex, list.id)"
           >
             {{ card.text }}
           </div>
@@ -52,7 +68,6 @@
     </div>
   </LoginLayout>
 </template>
-
 <script setup>
 import LoginLayout from "./layouts/LoginLayout.vue";
 import { reactive } from "vue";
@@ -76,7 +91,7 @@ const lists = reactive([
 const addList = () => {
   const columnName = prompt("Digite o nome da coluna:");
   const newListId = lists.length + 1;
-  lists.push({ id: newListId, title:columnName, cards: [] });
+  lists.push({ id: newListId, title: columnName, cards: [] });
 };
 
 const addCard = (listId) => {
@@ -86,6 +101,12 @@ const addCard = (listId) => {
   if (cardText) {
     list.cards.push({ id: newCardId, text: cardText });
   }
+};
+
+const moveList = (index, direction) => {
+  const newIndex = index + direction;
+  const [movedList] = lists.splice(index, 1);
+  lists.splice(newIndex, 0, movedList);
 };
 
 let draggedCard = null;
