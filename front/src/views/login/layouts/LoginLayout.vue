@@ -17,7 +17,7 @@
         </li>
 
         <li class="li-item">
-          <a href="#"> <i class="fa-solid fa-house"></i> Dashboard </a>
+          <a href="/dashboard"> <i class="fa-solid fa-house"></i> Dashboard </a>
         </li>
         <li>
           <hr />
@@ -32,7 +32,7 @@
         </li>
 
         <li class="li-item li-proj">
-          <a href="#"># Projeto 1 </a>
+          <a href="/projeto"># Projeto 1 </a>
         </li>
       </ul>
     </div>
@@ -188,7 +188,7 @@ const changeMenuStatus = () => {
 }
 .conteudo .principal .area-conteudo {
   padding: 20px;
-  max-height: 100%;
-  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
 }
 </style>

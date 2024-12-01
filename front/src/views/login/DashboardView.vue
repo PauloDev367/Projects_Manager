@@ -17,7 +17,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -65,7 +65,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -113,7 +113,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -161,7 +161,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -209,7 +209,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -257,7 +257,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -305,7 +305,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -353,7 +353,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -401,7 +401,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -449,7 +449,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -497,7 +497,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
@@ -545,7 +545,7 @@
             </a>
           </div>
           <div class="col-12 col-md-4">
-            <a href="#" class="card-projeto">
+            <a href="/projeto" class="card-projeto">
               <div class="head">
                 <img
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fTvBqEpyLmHNzZVx0YlKR5wOxFoLRAtZxA&s"
