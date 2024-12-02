@@ -116,15 +116,143 @@
           <div class="right-block">
             <ul class="actions">
               <li>
-                <a href="#">
-                  <i class="fa-solid fa-people-group"></i> Membros
-                </a>
+                <div class="dropdown">
+                  <a
+                    href="#"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa-solid fa-people-group"></i> Membros
+                  </a>
+
+                  <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <div class="dropdown-item-area">
+                      <ul class="membros-select">
+                        <li>
+                          <input type="checkbox" />
+                          <img
+                            src="https://plus.unsplash.com/premium_photo-1689530775582-83b8abdb5020?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww"
+                            alt="Membro"
+                          />
+                          <span>Nome da Silva</span>
+                        </li>
+                        <li>
+                          <input type="checkbox" />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMdBuvbsYu7WYAAUY2AqSQRGNESsYdkucDkQ&s"
+                            alt="Membro"
+                          />
+                          <span>Nome da Silva</span>
+                        </li>
+                        <li>
+                          <input type="checkbox" />
+                          <img
+                            src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
+                            alt="Membro"
+                          />
+                          <span>Nome da Silva</span>
+                        </li>
+                        <li>
+                          <input type="checkbox" />
+                          <img
+                            src="https://plus.unsplash.com/premium_photo-1689530775582-83b8abdb5020?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww"
+                            alt="Membro"
+                          />
+                          <span>Nome da Silva</span>
+                        </li>
+                        <li>
+                          <input type="checkbox" />
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMdBuvbsYu7WYAAUY2AqSQRGNESsYdkucDkQ&s"
+                            alt="Membro"
+                          />
+                          <span>Nome da Silva</span>
+                        </li>
+                        <li>
+                          <input type="checkbox" />
+                          <img
+                            src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
+                            alt="Membro"
+                          />
+                          <span>Nome da Silva</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li>
-                <a href="#"> <i class="fa-solid fa-tags"></i> Etiquetas </a>
+                <div class="dropdown">
+                  <a
+                    href="#"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa-solid fa-tags"></i> Etiquetas
+                  </a>
+
+                  <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <div class="dropdown-item-area">
+                      <ul class="etiquetas">
+                        <li>
+                          <input type="checkbox" />
+                          <span>Etiqueta 1</span>
+                        </li>
+                        <li>
+                          <input type="checkbox" />
+                          <span>Etiqueta 2</span>
+                        </li>
+                        <li>
+                          <input type="checkbox" />
+                          <span>Etiqueta 3</span>
+                        </li>
+                        <li>
+                          <input type="checkbox" />
+                          <span>Etiqueta 4</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </li>
               <li>
-                <a href="#"> <i class="fa-regular fa-clock"></i> Vencimento </a>
+                <div class="dropdown">
+                  <a
+                    href="#"
+                    id="dropdownMenuButton"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i class="fa-regular fa-clock"></i> Vencimento
+                  </a>
+
+                  <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <div class="dropdown-item-area">
+                      <div class="form-group">
+                        <label>Data de vencimento:</label>
+                        <input type="date" class="form-control" />
+                      </div>
+                      <div class="form-group">
+                        <label>Horário de vencimento:</label>
+                        <input type="time" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </li>
             </ul>
             <hr />
@@ -409,6 +537,56 @@ const closeModal = () => {
   span {
   background-color: cornflowerblue;
 }
+
+.modal-seecard .modal-area-base .body .right-block ul.etiquetas {
+  padding: 0;
+  list-style: none;
+}
+.modal-seecard .modal-area-base .body .right-block ul.etiquetas li span {
+  padding: 2px 3px;
+  margin: 2px;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 1rem;
+  width: 100%;
+}
+.modal-seecard
+  .modal-area-base
+  .body
+  .right-block
+  ul.etiquetas
+  li:nth-child(1)
+  span {
+  background-color: rosybrown;
+}
+.modal-seecard
+  .modal-area-base
+  .body
+  .right-block
+  ul.etiquetas
+  li:nth-child(2)
+  span {
+  background-color: crimson;
+}
+.modal-seecard
+  .modal-area-base
+  .body
+  .right-block
+  ul.etiquetas
+  li:nth-child(3)
+  span {
+  background-color: darkgoldenrod;
+}
+.modal-seecard
+  .modal-area-base
+  .body
+  .right-block
+  ul.etiquetas
+  li:nth-child(4)
+  span {
+  background-color: cornflowerblue;
+}
+
 .modal-seecard .modal-area-base .body .right-block ul.membros {
   padding: 0;
   margin: 0;
@@ -429,7 +607,35 @@ const closeModal = () => {
   object-fit: cover;
   border-radius: 50%;
 }
-
+.modal-seecard .modal-area-base .body .right-block .dropdown-item-area {
+  padding: 5px 10px;
+  min-width: 250px;
+}
+.modal-seecard .modal-area-base .body .right-block .dropdown-item-area:hover,
+.modal-seecard .modal-area-base .body .right-block .dropdown-item-area:active {
+  background-color: #fff;
+  color: #000;
+}
+.modal-seecard .modal-area-base .body .right-block ul.membros-select {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.modal-seecard .modal-area-base .body .right-block ul.membros-select li {
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.modal-seecard .modal-area-base .body .right-block ul.membros-select li img {
+  width: 40px;
+  margin-left: 5px;
+  height: 40px;
+  display: inline-block;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.modal-seecard .modal-area-base .body .right-block ul.membros-select li span {
+  margin-left: 5px;
+}
 .modal-seecard .modal-area-base .body .right-block {
   width: 30%;
   height: 90%;
