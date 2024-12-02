@@ -18,7 +18,6 @@
               ref="inputField"
               @keypress.enter="confirmListNameUpdate(list.id)"
             />
-            
           </template>
           <h3 v-else>{{ list.title }}</h3>
           <div>
@@ -57,6 +56,7 @@
             @dragstart="onDragStart($event, card, list.id)"
             @dragover.prevent="onDragOver($event, cardIndex, list.id)"
             @drop="onDrop($event, cardIndex, list.id)"
+            @click="showInfos(card)"
           >
             {{ card.text }}
           </div>
@@ -81,6 +81,95 @@
         </div>
       </div>
     </div>
+
+    <div class="modal-seecard" v-if="listCardToSee != null">
+      <div class="modal-area-base">
+        <div class="head">
+          <h2>{{ listCardToSee.text }}</h2>
+          <button @click="closeModal">
+            <i class="fa-regular fa-circle-xmark"></i>
+          </button>
+        </div>
+        <div class="body">
+          <div class="main-block">
+            <h6>Descrição</h6>
+            <ul class="etiquetas">
+              <li>
+                <span>Etiqueta 1</span>
+              </li>
+              <li>
+                <span>Etiqueta 2</span>
+              </li>
+              <li>
+                <span>Etiqueta 3</span>
+              </li>
+              <li>
+                <span>Etiqueta 4</span>
+              </li>
+            </ul>
+            <textarea rows="15"></textarea>
+            <div class="text-right mt-2">
+              <button class="btn btn-sm btn-danger mr-2">Cancelar</button>
+              <button class="btn btn-sm btn-info">Salvar</button>
+            </div>
+          </div>
+          <div class="right-block">
+            <ul class="actions">
+              <li>
+                <a href="#">
+                  <i class="fa-solid fa-people-group"></i> Membros
+                </a>
+              </li>
+              <li>
+                <a href="#"> <i class="fa-solid fa-tags"></i> Etiquetas </a>
+              </li>
+              <li>
+                <a href="#"> <i class="fa-regular fa-clock"></i> Vencimento </a>
+              </li>
+            </ul>
+            <hr />
+            <ul class="membros">
+              <li>
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1689530775582-83b8abdb5020?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww"
+                  alt="Membro"
+                />
+              </li>
+              <li>
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMdBuvbsYu7WYAAUY2AqSQRGNESsYdkucDkQ&s"
+                  alt="Membro"
+                />
+              </li>
+              <li>
+                <img
+                  src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
+                  alt="Membro"
+                />
+              </li>
+              <li>
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1689530775582-83b8abdb5020?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVyc29ufGVufDB8fDB8fHww"
+                  alt="Membro"
+                />
+              </li>
+              <li>
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMdBuvbsYu7WYAAUY2AqSQRGNESsYdkucDkQ&s"
+                  alt="Membro"
+                />
+              </li>
+              <li>
+                <img
+                  src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
+                  alt="Membro"
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </LoginLayout>
 </template>
 <script setup>
@@ -88,6 +177,7 @@ import LoginLayout from "./layouts/LoginLayout.vue";
 import { reactive, ref } from "vue";
 const listToUpdateId = ref(null);
 const canUpdateListName = ref(false);
+const listCardToSee = ref(null);
 
 const lists = reactive([
   {
@@ -159,7 +249,6 @@ const onDragOverEmpty = (event, listId) => {
 const onDrop = (event, targetIndex, toListId) => {
   const fromList = lists.find((l) => l.id === draggedFromListId);
   const toList = lists.find((l) => l.id === toListId);
-
   const cardIndex = fromList.cards.findIndex((c) => c.id === draggedCard.id);
   if (cardIndex !== -1) fromList.cards.splice(cardIndex, 1);
 
@@ -194,15 +283,179 @@ const onDrop = (event, targetIndex, toListId) => {
 const updateListName = (listId) => {
   listToUpdateId.value = listId;
   canUpdateListName.value = true;
-
 };
 const confirmListNameUpdate = (listId) => {
   listToUpdateId.value = null;
   canUpdateListName.value = false;
 };
+
+const showInfos = (card) => {
+  listCardToSee.value = card;
+};
+const closeModal = () => {
+  listCardToSee.value = null;
+};
 </script>
 
 <style scoped>
+.modal-seecard {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal-seecard .modal-area-base {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 75%;
+  height: 800px;
+  z-index: 99;
+}
+.modal-seecard .modal-area-base .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.modal-seecard .modal-area-base .head h2 {
+  margin-bottom: 0;
+  font-size: 1.3rem;
+}
+.modal-seecard .modal-area-base .head button {
+  background-color: transparent;
+  font-size: 1.5rem;
+  border: none;
+  transition: all 0.3s;
+}
+.modal-seecard .modal-area-base .head button:hover {
+  color: #dc5148;
+}
+.modal-seecard .modal-area-base .body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+}
+.modal-seecard .modal-area-base .body .main-block {
+  overflow-y: scroll;
+  width: 70%;
+  height: 90%;
+  min-height: 400px;
+  padding: 20px;
+}
+.modal-seecard .modal-area-base .body .main-block textarea {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  outline: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+.modal-seecard .modal-area-base .body .main-block ul.etiquetas {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.modal-seecard .modal-area-base .body .main-block ul.etiquetas li span {
+  padding: 2px 3px;
+  margin: 2px;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 0.8rem;
+}
+.modal-seecard
+  .modal-area-base
+  .body
+  .main-block
+  ul.etiquetas
+  li:nth-child(1)
+  span {
+  background-color: rosybrown;
+}
+.modal-seecard
+  .modal-area-base
+  .body
+  .main-block
+  ul.etiquetas
+  li:nth-child(2)
+  span {
+  background-color: crimson;
+}
+.modal-seecard
+  .modal-area-base
+  .body
+  .main-block
+  ul.etiquetas
+  li:nth-child(3)
+  span {
+  background-color: darkgoldenrod;
+}
+.modal-seecard
+  .modal-area-base
+  .body
+  .main-block
+  ul.etiquetas
+  li:nth-child(4)
+  span {
+  background-color: cornflowerblue;
+}
+.modal-seecard .modal-area-base .body .right-block ul.membros {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.modal-seecard .modal-area-base .body .right-block ul.membros li {
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.modal-seecard .modal-area-base .body .right-block ul.membros li img {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.modal-seecard .modal-area-base .body .right-block {
+  width: 30%;
+  height: 90%;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+.modal-seecard .modal-area-base .body .right-block ul.actions {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+.modal-seecard .modal-area-base .body .right-block ul.actions li a {
+  font-size: 1.1rem;
+  display: inline-block;
+  color: #000;
+  background-color: #fcfaf8;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+.modal-seecard .modal-area-base .body .right-block ul.actions li a:hover {
+  background-color: #bababa;
+}
 .area-cards {
   display: flex;
   align-items: flex-start;
