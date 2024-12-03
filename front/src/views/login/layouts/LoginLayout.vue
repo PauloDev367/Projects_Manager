@@ -25,7 +25,7 @@
         <li class="li-item li-title">
           <div class="projetos">
             <span>Meus projetos</span>
-            <button>
+            <button @click="changeModalToShow">
               <i class="fa-solid fa-circle-plus"></i>
             </button>
           </div>
@@ -47,12 +47,45 @@
       </div>
     </div>
   </div>
+
+  
+  <div class="modal-seecard" v-if="showmodal != null">
+    <div class="modal-area-base">
+      <div class="head">
+        <h2>Adicionar novo projeto</h2>
+        <button @click="changeModalToHidde">
+          <i class="fa-regular fa-circle-xmark"></i>
+        </button>
+      </div>
+      <div class="body">
+        <div class="main-block">
+          <form action="">
+            <div class="form-group">
+              <label>Titulo</label>
+              <input type="text" class="form-control">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 
+const showmodal = ref(null);
 const hideMenu = ref(false);
+
+
+const changeModalToShow = ()=>{
+  console.log("clicou");
+  showmodal.value = true;
+  console.log(showmodal);
+}
+const changeModalToHidde = ()=>{
+  showmodal.value = null;
+}
 
 const changeMenuStatus = () => {
   hideMenu.value = !hideMenu.value;
@@ -60,6 +93,60 @@ const changeMenuStatus = () => {
 </script>
 
 <style scoped>
+.modal-seecard {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal-seecard .modal-area-base {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 75%;
+  height: 800px;
+  z-index: 99;
+}
+.modal-seecard .modal-area-base .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.modal-seecard .modal-area-base .head h2 {
+  margin-bottom: 0;
+  font-size: 1.3rem;
+}
+.modal-seecard .modal-area-base .head button {
+  background-color: transparent;
+  font-size: 1.5rem;
+  border: none;
+  transition: all 0.3s;
+}
+.modal-seecard .modal-area-base .head button:hover {
+  color: #dc5148;
+}
+.modal-seecard .modal-area-base .body {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: 100%;
+}
+.modal-seecard .modal-area-base .body .main-block {
+  overflow-y: scroll;
+  width: 100%;
+  height: 90%;
+  min-height: 400px;
+  padding: 20px;
+}
+
 .conteudo {
   display: flex;
   justify-content: flex-start;
