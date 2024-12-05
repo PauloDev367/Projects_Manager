@@ -9,7 +9,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - webapi
+      - laravel
       - vuejs
 
   redis:
@@ -18,13 +18,17 @@ services:
     ports:
       - 6379:6379
 
-  webapi:
+  laravel :
     build:
-      context: .
-      dockerfile: api/Api/Dockerfile
-    container_name: api-container
+      context: ./api
+      dockerfile: Dockerfile
+    restart: unless-stopped
     ports:
-      - "5050:8080"
+      - 8181:8181
+    depends_on:
+      - redis
+    volumes:
+      - ./api:/app
 
   vuejs:
     build:
@@ -33,7 +37,7 @@ services:
     ports:
       - 4040:80
     depends_on:
-      - webapi
+      - laravel
     volumes:
       - ./front:/app
 
