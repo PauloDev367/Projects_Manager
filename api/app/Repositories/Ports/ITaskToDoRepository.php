@@ -8,8 +8,10 @@ use App\Models\User;
 interface ITaskToDoRepository
 {
     public function create(TaskToDo $taskToDo);
-    public function getOne(User $user,int $id);
-    public function getAll(User $user,int $column_id);
+    public function getOne(User $user, int $id);
+    public function getAll(User $user, int $column_id);
     public function delete(TaskToDo $taskToDo);
     public function update(TaskToDo $taskToDo);
+    public function getOneFromColumn(User $user, int $id, int $column_id);
+    public function countTotalFromColumns(User $user, int $column_id);
 }

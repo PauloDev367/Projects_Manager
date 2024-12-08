@@ -63,6 +63,7 @@ Route::group(["prefix" => "v1"], function () {
         Route::post('', [TaskToDoController::class, 'create']);
         Route::get('{id}', [TaskToDoController::class, 'getOne']);
         Route::get('column/{id}', [TaskToDoController::class, 'getAll']);
+        Route::patch('column/{id}/positions', [TaskToDoController::class, 'updateTasksPosition']);
         Route::delete('{id}', [TaskToDoController::class, 'delete']);
         Route::put('{id}', [TaskToDoController::class, 'update']);
         Route::put('{id}/tickets', [TaskToDoController::class, 'setTickets']);

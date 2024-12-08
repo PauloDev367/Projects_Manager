@@ -20,10 +20,26 @@ class TaskToDoRepository implements ITaskToDoRepository
             ->with("tickets")
             ->first();
     }
+    public function getOneFromColumn(User $user, int $id, int $column_id)
+    {
+        return TaskToDo::where("user_id", $user->id)
+            ->where("id", $id)
+            ->where("column_id", $column_id)
+            ->with("tickets")
+            ->first();
+    }
+    public function countTotalFromColumns(User $user, int $column_id)
+    {
+        return TaskToDo::where("user_id", $user->id)
+            ->where("column_id", $column_id)
+            ->with("tickets")
+            ->count();
+    }
     public function getAll(User $user, int $column_id)
     {
         return TaskToDo::where("user_id", $user->id)
             ->where("column_id", $column_id)
+            ->orderBy("position")
             ->with("tickets")
             ->get();
     }

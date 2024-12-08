@@ -8,7 +8,10 @@ use App\Http\Requests\V1\CreateTaskToDoRequest;
 use App\Http\Requests\V1\UpdateTaskToDoRequest;
 use App\Repositories\Ports\ITaskToDoRepository;
 use App\Http\Requests\V1\AddTicketsToTaskToDoRequest;
+use App\Http\Requests\V1\UpdateTaskToDoPositionRequest;
+use DomainException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 
 class TaskToDoService
 {
@@ -68,5 +71,25 @@ class TaskToDoService
 
         $task->tickets()->attach($request->tickets);
         return $task;
+    }
+    public function updateTasksPosition(User $user, int $column_id, UpdateTaskToDoPositionRequest $request){
+        $tasksData = $request->newPositions;
+        $totalColumns = $this->repository->countTotalFromColumns($user, $column_id);
+
+        if (count($tasksData) < $totalColumns || count($tasksData) > $totalColumns) {
+            throw new DomainException("You should informate all tasks correctly");
+        }
+
+        DB::transaction(function () use ($tasksData, $user) {
+            foreach ($tasksData as $data) {
+                $task = $this->repository->getOne($user, $data["id"]);
+                if ($task) {
+                    $task->position = $data["position"];
+                    $this->repository->update($task);
+                } else {
+                    throw new ModelNotFoundException("Task with id " . $data["id"] . " not founded");
+                }
+            }
+        });
     }
 }
