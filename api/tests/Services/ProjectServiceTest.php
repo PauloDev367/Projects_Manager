@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Services\ProjectsService;
 use App\Repositories\Ports\IProjectRepository;
 use App\Http\Requests\V1\CreateProjectsRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ProjectServiceTest extends TestCase
@@ -154,5 +155,47 @@ class ProjectServiceTest extends TestCase
         $result = $service->getAll($user, $request);
 
         $this->assertCount(0, $result);
+    }
+    public function test_delete_project_success()
+    {
+        $repositoryMock = $this->createMock(IProjectRepository::class);
+
+        $user = new User();
+        $user->id = 1;
+
+        $project = new Project();
+        $project->id = 1;
+        $project->title = 'Project 1';
+
+        $repositoryMock->method('getOne')
+            ->with($user, 1)
+            ->willReturn($project);
+
+        $repositoryMock->expects($this->once())
+            ->method('delete')
+            ->with($user, $project);
+
+        $service = new ProjectsService($repositoryMock);
+
+        $service->delete($user, 1);
+    }
+
+    public function test_delete_project_not_found()
+    {
+        $repositoryMock = $this->createMock(IProjectRepository::class);
+
+        $user = new User();
+        $user->id = 1;
+
+        $repositoryMock->method('getOne')
+            ->with($user, 1)
+            ->willReturn(null);
+
+        $service = new ProjectsService($repositoryMock);
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->expectExceptionMessage("Project not founded");
+
+        $service->delete($user, 1);
     }
 }
