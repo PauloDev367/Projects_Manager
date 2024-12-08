@@ -17,12 +17,14 @@ class TaskToDoRepository implements ITaskToDoRepository
     {
         return TaskToDo::where("user_id", $user->id)
             ->where("id", $id)
+            ->with("tickets")
             ->first();
     }
     public function getAll(User $user, int $column_id)
     {
         return TaskToDo::where("user_id", $user->id)
             ->where("column_id", $column_id)
+            ->with("tickets")
             ->get();
     }
     public function delete(TaskToDo $taskToDo)

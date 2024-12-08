@@ -9,6 +9,12 @@ class Ticket extends Model
 {
     use HasFactory;
     protected $table = "tickets";
+    protected $hidden = [
+        "created_at",
+        "updated_at",
+        "user_id",
+        "pivot",
+    ];
 
     public function tasks()
     {
