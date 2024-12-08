@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\V1\AuthController;
+use App\Http\Controllers\V1\ProjectsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,8 +25,22 @@ Route::group([
     'prefix' => 'auth'
 ], function ($router) {
 
-    Route::post('login', [AuthController::class,'login']);
-    Route::post('logout', [AuthController::class,'logout']);
-    Route::post('refresh', [AuthController::class,'refresh']);
-    Route::post('me', [AuthController::class,'me']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+    Route::post('me', [AuthController::class, 'me']);
+});
+
+
+Route::group(["prefix" => "v1"], function () {
+    Route::group([
+        "middleware" => "auth:api",
+        "prefix" => "projects"
+    ], function () {
+        Route::post('', [ProjectsController::class, "create"]);
+        Route::get('{id}', [ProjectsController::class, "getOne"]);
+        Route::get('', [ProjectsController::class, "getAll"]);
+        Route::delete('{id}', [ProjectsController::class, "delete"]);
+        Route::put('{id}', [ProjectsController::class, "update"]);
+    });
 });

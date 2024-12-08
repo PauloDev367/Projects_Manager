@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\Ports\IProjectRepository;
+use App\Repositories\ProjectRepository;
+use App\Services\ProjectsService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +14,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(ProjectsService::class);
+        $this->app->bind(IProjectRepository::class, ProjectRepository::class);
     }
 
     /**
