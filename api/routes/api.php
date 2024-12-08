@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\V1\AuthController;
+use App\Http\Controllers\V1\ColumnsController;
 use App\Http\Controllers\V1\ProjectsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,5 +43,14 @@ Route::group(["prefix" => "v1"], function () {
         Route::get('', [ProjectsController::class, "getAll"]);
         Route::delete('{id}', [ProjectsController::class, "delete"]);
         Route::put('{id}', [ProjectsController::class, "update"]);
+    });
+    Route::group([
+        "middleware" => "auth:api",
+        "prefix" => "columns"
+    ], function () {
+        Route::post('', [ColumnsController::class, 'create']);
+        Route::get('project/{id}', [ColumnsController::class, 'getAll']);
+        Route::delete('{id}', [ColumnsController::class, 'delete']);
+        Route::put('{id}', [ColumnsController::class, 'update']);
     });
 });
