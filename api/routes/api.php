@@ -4,6 +4,7 @@ use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\ColumnsController;
 use App\Http\Controllers\V1\ProjectsController;
 use App\Http\Controllers\V1\TaskToDoController;
+use App\Http\Controllers\V1\TicketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -63,5 +64,16 @@ Route::group(["prefix" => "v1"], function () {
         Route::get('column/{id}', [TaskToDoController::class, 'getAll']);
         Route::delete('{id}', [TaskToDoController::class, 'delete']);
         Route::put('{id}', [TaskToDoController::class, 'update']);
+    });
+
+    Route::group([
+        "middleware" => "auth:api",
+        "prefix" => "tickets"
+    ], function () {
+        Route::post('', [TicketController::class, 'create']);
+        Route::get('{id}', [TicketController::class, 'getOne']);
+        Route::get('', [TicketController::class, 'getAll']);
+        Route::delete('{id}', [TicketController::class, 'delete']);
+        Route::put('{id}', [TicketController::class, 'update']);
     });
 });
