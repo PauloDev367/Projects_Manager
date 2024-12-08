@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Services\ProjectsService;
 use App\Repositories\Ports\IProjectRepository;
 use App\Http\Requests\V1\CreateProjectsRequest;
+use App\Http\Requests\V1\UpdateProjectsRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
@@ -197,5 +198,89 @@ class ProjectServiceTest extends TestCase
         $this->expectExceptionMessage("Project not founded");
 
         $service->delete($user, 1);
+    }
+    public function test_update_project_success()
+    {
+        $repositoryMock = $this->createMock(IProjectRepository::class);
+
+        $user = new User();
+        $user->id = 1;
+
+        $project = new Project();
+        $project->id = 1;
+        $project->title = 'Project 1';
+
+        $request = new UpdateProjectsRequest([
+            'title' => 'Updated Project 1',
+        ]);
+
+        $repositoryMock->method('getOne')
+            ->with($user, 1)
+            ->willReturn($project);
+
+        $repositoryMock->expects($this->once())
+            ->method('update')
+            ->with($user, $project)
+            ->willReturn($project);
+
+        $service = new ProjectsService($repositoryMock);
+
+        $updatedProject = $service->update($user, 1, $request);
+
+        $this->assertEquals('Updated Project 1', $updatedProject->title);
+    }
+
+    public function test_update_project_not_found()
+    {
+        $repositoryMock = $this->createMock(IProjectRepository::class);
+
+        $user = new User();
+        $user->id = 1;
+
+        $repositoryMock->method('getOne')
+            ->with($user, 1)
+            ->willReturn(null);
+
+        $request = new UpdateProjectsRequest([
+            'title' => 'Updated Project 1',
+        ]);
+
+        $service = new ProjectsService($repositoryMock);
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->expectExceptionMessage("Project not founded");
+
+        $service->update($user, 1, $request);
+    }
+
+    public function test_update_project_no_title_change()
+    {
+        $repositoryMock = $this->createMock(IProjectRepository::class);
+
+        $user = new User();
+        $user->id = 1;
+
+        $project = new Project();
+        $project->id = 1;
+        $project->title = 'Project 1';
+
+        $request = new UpdateProjectsRequest([
+            'title' => null,
+        ]);
+
+        $repositoryMock->method('getOne')
+            ->with($user, 1)
+            ->willReturn($project);
+
+        $repositoryMock->expects($this->once())
+            ->method('update')
+            ->with($user, $project)
+            ->willReturn($project);
+
+        $service = new ProjectsService($repositoryMock);
+
+        $updatedProject = $service->update($user, 1, $request);
+
+        $this->assertEquals('Project 1', $updatedProject->title);
     }
 }
