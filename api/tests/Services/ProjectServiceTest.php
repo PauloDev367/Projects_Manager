@@ -6,11 +6,10 @@ use Mockery;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Project;
-use InvalidArgumentException;
 use App\Services\ProjectsService;
 use App\Repositories\Ports\IProjectRepository;
-use Illuminate\Validation\ValidationException;
 use App\Http\Requests\V1\CreateProjectsRequest;
+use Illuminate\Http\Request;
 
 class ProjectServiceTest extends TestCase
 {
@@ -108,5 +107,52 @@ class ProjectServiceTest extends TestCase
         $result = $service->getOne($user, 1);
 
         $this->assertNull($result);
+    }
+    public function test_get_all_projects_success()
+    {
+        $repositoryMock = $this->createMock(IProjectRepository::class);
+        $request = new Request();
+
+        $user = new User();
+        $user->id = 1;
+        $p1 = new Project();
+        $p1->title = "Project 1";
+        $p1->id =  1;
+        $p2 = new Project();
+        $p2->title = "Project 2";
+        $p2->id =  2;
+
+        $projectData = collect([$p1, $p2]);
+
+        $repositoryMock->method('getAll')
+            ->with($user, $request)
+            ->willReturn($projectData);
+
+        $service = new ProjectsService($repositoryMock);
+
+        $result = $service->getAll($user, $request);
+
+        $this->assertCount(2, $result);
+        $this->assertEquals('Project 1', $result[0]->title);
+        $this->assertEquals('Project 2', $result[1]->title);
+    }
+
+    public function test_get_all_projects_empty_result()
+    {
+        $repositoryMock = $this->createMock(IProjectRepository::class);
+        $request = new Request();
+
+        $user = new User();
+        $user->id = 1;
+
+        $repositoryMock->method('getAll')
+            ->with($user, $request)
+            ->willReturn(collect([]));
+
+        $service = new ProjectsService($repositoryMock);
+
+        $result = $service->getAll($user, $request);
+
+        $this->assertCount(0, $result);
     }
 }
