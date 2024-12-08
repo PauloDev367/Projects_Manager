@@ -10,10 +10,13 @@ use Illuminate\Routing\Redirector;
 use PHPUnit\Framework\MockObject\MockObject;
 use App\Http\Requests\V1\CreateColumnRequest;
 use App\Http\Requests\V1\UpdateColumnRequest;
+use App\Http\Requests\V1\UpdateColumnsPositionRequest;
 use App\Repositories\ColumnRepository;
 use App\Repositories\Ports\IColumnRepository;
+use DomainException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 
 class ColumnsServiceTest extends TestCase
 {
@@ -155,7 +158,7 @@ class ColumnsServiceTest extends TestCase
     public function test_update_column_not_found()
     {
         $user = new User();
-        $user->id = 1; 
+        $user->id = 1;
 
         $request = new UpdateColumnRequest([
             'title' => 'New Title'
@@ -211,12 +214,108 @@ class ColumnsServiceTest extends TestCase
 
         $repository = $this->createMock(ColumnRepository::class);
         $repository->method('getOne')->willReturn($column);
-        $repository->method('update')->willReturn($column); 
+        $repository->method('update')->willReturn($column);
 
         $service = new ColumnsService($repository);
 
         $updatedColumn = $service->update($user, $column->id, $request);
 
         $this->assertEquals('Old Title', $updatedColumn->title);
+    }
+
+
+
+
+
+
+    public function test_update_columns_position_with_invalid_column_count()
+    {
+        $user = new User();
+        $user->id = 1;
+
+        $request = new UpdateColumnsPositionRequest([
+            'newPositions' => [
+                ['id' => 1, 'position' => 1],
+            ]
+        ]);
+
+        $repository = $this->createMock(ColumnRepository::class);
+        $repository->method('countTotal')->willReturn(2);
+
+        $service = new ColumnsService($repository);
+
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('You should informate all columns correctly');
+
+        $service->updateColumnsPosition($user, 1, $request);
+    }
+
+    public function test_update_columns_position_with_column_not_found()
+    {
+        $user = new User();
+        $user->id = 1;
+
+        $request = new UpdateColumnsPositionRequest([
+            'newPositions' => [
+                ['id' => 1, 'position' => 1],
+                ['id' => 2, 'position' => 2]
+            ]
+        ]);
+
+        $repository = $this->createMock(ColumnRepository::class);
+        $repository->method('countTotal')->willReturn(2);
+        $repository->method('getOne')->willReturn(null);
+
+        $service = new ColumnsService($repository);
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->expectExceptionMessage('Column with id 1 not founded');
+
+        $service->updateColumnsPosition($user, 1, $request);
+    }
+
+    public function test_update_columns_position_success()
+    {
+        $user = new User();
+        $user->id = 1;
+
+        $column1 = new Column();
+        $column1->id = 1;
+        $column1->position = 1;
+
+        $column2 = new Column();
+        $column2->id = 2;
+        $column2->position = 2;
+
+        $request = new UpdateColumnsPositionRequest([
+            'newPositions' => [
+                ['id' => 1, 'position' => 2],
+                ['id' => 2, 'position' => 1]
+            ]
+        ]);
+
+        $repository = $this->createMock(ColumnRepository::class);
+
+        $repository->method('countTotal')->willReturn(2);
+
+        $repository->method('getOne')
+            ->will($this->returnCallback(function ($user, $columnId) use ($column1, $column2) {
+                return $columnId === 1 ? $column1 : ($columnId === 2 ? $column2 : null);
+            }));
+
+        $repository->method('update')->willReturnCallback(function ($column) {
+            return $column;
+        });
+
+        $service = new ColumnsService($repository);
+
+        DB::shouldReceive('transaction')->once()->andReturnUsing(function ($callback) {
+            return $callback();
+        });
+
+        $service->updateColumnsPosition($user, 1, $request);
+
+        $this->assertEquals(2, $column1->position);
+        $this->assertEquals(1, $column2->position);
     }
 }
