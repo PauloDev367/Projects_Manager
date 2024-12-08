@@ -6,10 +6,11 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Column;
 use App\Services\ColumnsService;
+use PHPUnit\Framework\MockObject\MockObject;
 use App\Http\Requests\V1\CreateColumnRequest;
 use App\Repositories\Ports\IColumnRepository;
 use Illuminate\Validation\ValidationException;
-use PHPUnit\Framework\MockObject\MockObject;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ColumnsServiceTest extends TestCase
 {
@@ -96,7 +97,7 @@ class ColumnsServiceTest extends TestCase
     {
         $repositoryMock = $this->createMock(IColumnRepository::class);
         $columnsService = new ColumnsService($repositoryMock);
-        
+
         $user = new User();
         $user->id = 1;
         $project_id = 123;
@@ -108,5 +109,44 @@ class ColumnsServiceTest extends TestCase
             ->willReturn([]);
 
         $columnsService->getAll($user, $project_id);
+    }
+    public function test_should_delete_column_when_column_exists()
+    {
+        $repositoryMock = $this->createMock(IColumnRepository::class);
+
+        $user = new User();
+        $columnId = 1;
+        $column = new Column();
+
+        $repositoryMock->expects($this->once())
+            ->method('getOne')
+            ->with($user, $columnId)
+            ->willReturn($column);
+
+        $repositoryMock->expects($this->once())
+            ->method('delete')
+            ->with($column);
+
+        $columnsService = new ColumnsService($repositoryMock);
+        $columnsService->delete($user, $columnId);
+    }
+
+    public function test_should_throw_exception_when_column_not_found()
+    {
+        $repositoryMock = $this->createMock(IColumnRepository::class);
+
+        $user = new User();
+        $columnId = 1;
+
+        $repositoryMock->expects($this->once())
+            ->method('getOne')
+            ->with($user, $columnId)
+            ->willReturn(null);
+
+        $columnsService = new ColumnsService($repositoryMock);
+
+        $this->expectException(ModelNotFoundException::class);
+
+        $columnsService->delete($user, $columnId);
     }
 }
