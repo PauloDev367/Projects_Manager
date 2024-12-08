@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\AddTicketsToTaskToDoRequest;
 use App\Http\Requests\V1\CreateTaskToDoRequest;
 use App\Http\Requests\V1\UpdateTaskToDoRequest;
 use App\Models\User;
@@ -45,5 +46,10 @@ class TaskToDoController extends Controller
     {
         $updated = $this->service->update($this->authUser, $request, $id);
         return response()->json(["success" => $updated]);
+    }
+    public function setTickets(AddTicketsToTaskToDoRequest $request, int $id)
+    {
+        $data = $this->service->setTickets($this->authUser, $request, $id);
+        return response()->json(["success" => $data]);
     }
 }

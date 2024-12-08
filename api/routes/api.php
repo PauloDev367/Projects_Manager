@@ -64,6 +64,7 @@ Route::group(["prefix" => "v1"], function () {
         Route::get('column/{id}', [TaskToDoController::class, 'getAll']);
         Route::delete('{id}', [TaskToDoController::class, 'delete']);
         Route::put('{id}', [TaskToDoController::class, 'update']);
+        Route::put('{id}/tickets', [TaskToDoController::class, 'setTickets']);
     });
 
     Route::group([

@@ -9,4 +9,8 @@ class TaskToDo extends Model
 {
     use HasFactory;
     protected $table = "tasktodos";
+    public function tickets()
+    {
+        return $this->belongsToMany(Ticket::class, 'task_to_do_ticket');
+    }
 }

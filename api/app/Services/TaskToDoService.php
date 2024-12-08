@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\TaskToDo;
 use App\Http\Requests\V1\CreateTaskToDoRequest;
 use App\Http\Requests\V1\UpdateTaskToDoRequest;
-use App\Models\TaskToDo;
 use App\Repositories\Ports\ITaskToDoRepository;
+use App\Http\Requests\V1\AddTicketsToTaskToDoRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TaskToDoService
@@ -58,5 +59,15 @@ class TaskToDoService
 
         $updated = $this->repository->update($task);
         return $updated;
+    }
+    public function setTickets(User $user, AddTicketsToTaskToDoRequest $request, int $id)
+    {
+        $task = $this->repository->getOne($user, $id);
+        if ($task == null) {
+            throw new ModelNotFoundException("Task not founded");
+        }
+
+        $task->tickets()->attach($request->tickets);
+        return $task;
     }
 }
