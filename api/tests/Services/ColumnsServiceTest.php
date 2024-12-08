@@ -9,6 +9,7 @@ use App\Services\ColumnsService;
 use App\Http\Requests\V1\CreateColumnRequest;
 use App\Repositories\Ports\IColumnRepository;
 use Illuminate\Validation\ValidationException;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ColumnsServiceTest extends TestCase
 {
@@ -66,5 +67,46 @@ class ColumnsServiceTest extends TestCase
         $service->create($user, $request);
 
         $repositoryMock->expects($this->never())->method('create');
+    }
+
+    public function test_should_return_columns_data_when_getAll_is_called()
+    {
+        $repositoryMock = $this->createMock(IColumnRepository::class);
+        $columnsService = new ColumnsService($repositoryMock);
+
+        $user = new User();
+        $project_id = 1;
+        $c1 = new Column();
+        $c1->title = "title";
+        $c1->position = 1;
+        $columns = [$c1, $c1];
+
+        $repositoryMock
+            ->expects($this->once())
+            ->method('getAll')
+            ->with($user, $project_id)
+            ->willReturn($columns);
+
+        $result = $columnsService->getAll($user, $project_id);
+
+        $this->assertSame($columns, $result);
+    }
+
+    public function test_should_call_getAll_with_correct_parameters()
+    {
+        $repositoryMock = $this->createMock(IColumnRepository::class);
+        $columnsService = new ColumnsService($repositoryMock);
+        
+        $user = new User();
+        $user->id = 1;
+        $project_id = 123;
+
+        $repositoryMock
+            ->expects($this->once())
+            ->method('getAll')
+            ->with($user, $project_id)
+            ->willReturn([]);
+
+        $columnsService->getAll($user, $project_id);
     }
 }
