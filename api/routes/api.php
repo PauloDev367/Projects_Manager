@@ -3,6 +3,7 @@
 use App\Http\Controllers\V1\AuthController;
 use App\Http\Controllers\V1\ColumnsController;
 use App\Http\Controllers\V1\ProjectsController;
+use App\Http\Controllers\V1\TaskToDoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,5 +53,15 @@ Route::group(["prefix" => "v1"], function () {
         Route::get('project/{id}', [ColumnsController::class, 'getAll']);
         Route::delete('{id}', [ColumnsController::class, 'delete']);
         Route::put('{id}', [ColumnsController::class, 'update']);
+    });
+    Route::group([
+        "middleware" => "auth:api",
+        "prefix" => "tasks"
+    ], function () {
+        Route::post('', [TaskToDoController::class, 'create']);
+        Route::get('{id}', [TaskToDoController::class, 'getOne']);
+        Route::get('column/{id}', [TaskToDoController::class, 'getAll']);
+        Route::delete('{id}', [TaskToDoController::class, 'delete']);
+        Route::put('{id}', [TaskToDoController::class, 'update']);
     });
 });

@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Http\Controllers\V1;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\CreateTaskToDoRequest;
+use App\Http\Requests\V1\UpdateTaskToDoRequest;
+use App\Models\User;
+use App\Services\TaskToDoService;
+use Illuminate\Http\Request;
+
+class TaskToDoController extends Controller
+{
+    private readonly ?User $authUser;
+
+    public function __construct(
+        private readonly TaskToDoService $service
+    ) {
+        $this->authUser = auth()->user();
+    }
+    public function create(CreateTaskToDoRequest $request)
+    {
+        $created = $this->service->create($this->authUser, $request);
+        return response()->json(["success" => $created], 201);
+    }
+    public function getOne(int $id)
+    {
+        $data = $this->service->getOne($this->authUser, $id);
+        if ($data == null) {
+            return response()->json(["error" => "Task not founded"], 404);
+        }
+        return response()->json(["success" => $data]);
+    }
+    public function getAll(int $column_id)
+    {
+        $data = $this->service->getAll($this->authUser, $column_id);
+        return response()->json(["success" => $data]);
+    }
+    public function delete(int $id)
+    {
+        $this->service->delete($this->authUser, $id);
+        return response()->noContent();
+    }
+    public function update(UpdateTaskToDoRequest $request, int $id)
+    {
+        $updated = $this->service->update($this->authUser, $request, $id);
+        return response()->json(["success" => $updated]);
+    }
+}
