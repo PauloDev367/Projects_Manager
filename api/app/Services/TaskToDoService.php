@@ -52,7 +52,6 @@ class TaskToDoService
             throw new ModelNotFoundException("Task not founded");
         }
         $task->title = $request->title != null ? $request->title : $task->title;
-        $task->position = $request->position != null ? $request->position : $task->position;
         $task->end_data = $request->end_data != null ? $request->end_data : $task->end_data;
         $task->description = $request->description != null ? $request->description : $task->description;
         $task->column_id = $request->column_id != null ? $request->column_id : $task->column_id;

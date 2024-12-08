@@ -51,7 +51,6 @@ class ProjectsService
             throw new ModelNotFoundException("Project not founded");
         }
         $project->title = $request->title != null ? $request->title : $project->title;
-        $project->position = $request->position != null ? $request->position : $project->position;
         $updated = $this->repository->update($user, $project);
         return $updated;
     }

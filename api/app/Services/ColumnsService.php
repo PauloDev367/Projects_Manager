@@ -47,7 +47,6 @@ class ColumnsService
         }
 
         $column->title = $request->title != null ? $request->title : $column->title;
-        $column->position = $request->position != null ? $request->position : $column->position;
         $updated = $this->repository->update($column);
         return $updated;
     }
