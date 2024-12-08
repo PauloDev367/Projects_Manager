@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Models\User;
+use App\Services\ColumnsService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\CreateColumnRequest;
 use App\Http\Requests\V1\UpdateColumnRequest;
-use App\Models\User;
-use App\Services\ColumnsService;
+use App\Http\Requests\V1\UpdateColumnsPositionRequest;
 
 class ColumnsController extends Controller
 {
@@ -37,5 +38,10 @@ class ColumnsController extends Controller
     {
         $update = $this->service->update($this->authUser, $id, $request);
         return response()->json(["success" => $update]);
+    }
+    public function updateColumnsPosition(UpdateColumnsPositionRequest $request, int $id)
+    {
+        $this->service->updateColumnsPosition($this->authUser, $id, $request);
+        return response()->noContent();
     }
 }

@@ -12,4 +12,5 @@ interface IColumnRepository
     public function getOne(User $user, int $id);
     public function delete(Column $column);
     public function update(Column $column);
+    public function countTotal(User $user, int $project_id);
 }

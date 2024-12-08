@@ -44,7 +44,6 @@ Route::group(["prefix" => "v1"], function () {
         Route::get('{id}', [ProjectsController::class, "getOne"]);
         Route::get('', [ProjectsController::class, "getAll"]);
         Route::delete('{id}', [ProjectsController::class, "delete"]);
-        Route::put('{id}', [ProjectsController::class, "update"]);
     });
     Route::group([
         "middleware" => "auth:api",
@@ -54,6 +53,8 @@ Route::group(["prefix" => "v1"], function () {
         Route::get('project/{id}', [ColumnsController::class, 'getAll']);
         Route::delete('{id}', [ColumnsController::class, 'delete']);
         Route::put('{id}', [ColumnsController::class, 'update']);
+        Route::put('{id}', [ColumnsController::class, 'update']);
+        Route::patch('project/{id}/positions', [ColumnsController::class, "updateColumnsPosition"]);
     });
     Route::group([
         "middleware" => "auth:api",

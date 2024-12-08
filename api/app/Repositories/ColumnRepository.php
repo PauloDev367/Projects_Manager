@@ -35,4 +35,10 @@ class ColumnRepository implements IColumnRepository
         $column->save();
         return $column;
     }
+    public function countTotal(User $user, int $project_id)
+    {
+        return Column::where("user_id", $user->id)
+            ->where("project_id", $project_id)
+            ->count();
+    }
 }
