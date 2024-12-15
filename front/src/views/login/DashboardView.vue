@@ -6,9 +6,6 @@
         <div class="infos">
           <h3>Total: 12 projetos</h3>
 
-          <button class="btn btn-sm btn-info">
-            <i class="fa-regular fa-square-plus"></i> Adicionar
-          </button>
         </div>
       </div>
     </header>

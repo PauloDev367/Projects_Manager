@@ -11,3 +11,14 @@ export function getAllProjects() {
         }
     });
 }
+export function createProject(title) {
+    const data = {
+        title, position: 0
+    }
+    return axios.post(`${API_URL}projects`, data, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        }
+    });
+}

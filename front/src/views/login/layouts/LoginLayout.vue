@@ -48,7 +48,6 @@
     </div>
   </div>
 
-  
   <div class="modal-seecard" v-if="showmodal != null">
     <div class="modal-area-base">
       <div class="head">
@@ -59,12 +58,7 @@
       </div>
       <div class="body">
         <div class="main-block">
-          <form action="">
-            <div class="form-group">
-              <label>Titulo</label>
-              <input type="text" class="form-control">
-            </div>
-          </form>
+          <FormAddNewProjectComponent />
         </div>
       </div>
     </div>
@@ -73,19 +67,19 @@
 
 <script setup>
 import { ref } from "vue";
+import FormAddNewProjectComponent from "@/components/login/projects/FormAddNewProjectComponent.vue";
 
 const showmodal = ref(null);
 const hideMenu = ref(false);
 
-
-const changeModalToShow = ()=>{
+const changeModalToShow = () => {
   console.log("clicou");
   showmodal.value = true;
   console.log(showmodal);
-}
-const changeModalToHidde = ()=>{
+};
+const changeModalToHidde = () => {
   showmodal.value = null;
-}
+};
 
 const changeMenuStatus = () => {
   hideMenu.value = !hideMenu.value;
@@ -109,8 +103,8 @@ const changeMenuStatus = () => {
   background-color: #fff;
   padding: 20px;
   border-radius: 5px;
-  width: 75%;
-  height: 800px;
+  width: 50%;
+  height: 600px;
   z-index: 99;
 }
 .modal-seecard .modal-area-base .head {
