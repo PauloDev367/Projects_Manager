@@ -1,28 +1,35 @@
 <template>
   <LoginLayout>
-    <header>
-      <div class="col-12 mb-4 main">
-        <h2>Dashboard</h2>
-        <div class="infos">
-          <h3>Total: 12 projetos</h3>
-
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <div class="container">
-        <div class="row" v-if="projects != null">
-          <div
-            class="col-12 col-md-4"
-            v-for="project in projects.data"
-            :key="project.id"
-          >
-            <CardProjectComponent :project="project" />
+    <div class="base">
+      <header>
+        <div class="col-12 mb-4 main">
+          <h2>Dashboard</h2>
+          <div class="infos">
+            <h3>Total: 12 projetos</h3>
           </div>
         </div>
-      </div>
-    </main>
+      </header>
+
+      <main>
+        <div class="container">
+          <div class="row" v-if="searchInfo != null">
+            <div
+              class="col-12 col-md-4"
+              v-for="project in projects"
+              :key="project.id"
+            >
+              <CardProjectComponent :project="project" />
+            </div>
+
+            <div class="col-12 text-center mt-4 mb-4">
+              <button class="btn btn-info" @click="loadMorePages">
+                <i class="fa-solid fa-rotate"></i> Buscar mais
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   </LoginLayout>
 </template>
 
@@ -33,22 +40,36 @@ import { onMounted, ref } from "vue";
 import CardProjectComponent from "./../../components/login/projects/CardProjectComponent.vue";
 
 const projects = ref([]);
+const searchInfo = ref([]);
+const page = ref(1);
 
-onMounted(() => {
-  getAllProjects()
+const loadMorePages = () => {
+  if (searchInfo.value.next_page_url != null) {
+    page.value = page.value + 1;
+    loadProjects(page.value);
+  }
+};
+const loadProjects = (page) => {
+  getAllProjects(page)
     .then((result) => {
-      projects.value = result.data.success;
-      console.log(projects.value);
+      searchInfo.value = result.data.success;
+      result.data.success.data.forEach((element) => {
+        projects.value.push(element);
+      });
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch((err) => {});
+};
+onMounted(() => {
+  loadProjects(page.value);
 });
 </script>
 
 
-
 <style scoped>
+.base {
+  height: 100%;
+  overflow-y: scroll;
+}
 header .infos {
   display: flex;
   justify-content: space-between;

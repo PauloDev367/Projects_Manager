@@ -3,8 +3,8 @@ import axios from "axios";
 
 const token = localStorage.getItem('token');
 
-export function getAllProjects() {
-    return axios.get(`${API_URL}projects`, {
+export function getAllProjects(page) {
+    return axios.get(`${API_URL}projects?page=${page}`, {
         headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
